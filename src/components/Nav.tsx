@@ -14,7 +14,7 @@ function Logo() {
     <a
       href={href('/')}
       aria-label={`${profile.name}, home`}
-      className="inline-flex h-20 w-fit shrink-0 items-stretch overflow-hidden border border-rule-strong transition-colors hover:border-ink"
+      className="inline-flex h-20 w-fit shrink-0 items-stretch overflow-hidden border-2 border-ink transition-colors hover:border-accent"
     >
       {profile.logo ? (
         // The box takes its width from the mark, so the artwork touches all
