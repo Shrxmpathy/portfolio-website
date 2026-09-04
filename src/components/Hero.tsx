@@ -29,7 +29,16 @@ function MediaPanel() {
 
   const media = profile.heroMedia
   const isVideo = Boolean(media && VIDEO.test(media))
-  const show = Boolean(media) && !failed
+
+  // If a video cannot play, fall back to its poster still rather than the
+  // "set profile.heroMedia" prompt. That prompt is a note to the site author
+  // and should never reach a visitor once media is configured. This matters
+  // for screenshot bots and link-preview crawlers, which do not play video:
+  // Vercel's own deployment thumbnail was capturing the prompt.
+  const posterFallback = failed && isVideo ? profile.heroPoster : null
+  const showVideo = Boolean(media) && isVideo && !failed
+  const showImage = Boolean(media) && (!isVideo || Boolean(posterFallback)) && !(failed && !posterFallback)
+  const imageSrc = posterFallback ?? media
 
   return (
     <div className="relative w-full max-w-[320px] border border-rule bg-surface p-2">
@@ -38,7 +47,7 @@ function MediaPanel() {
       <span aria-hidden className="absolute right-2 bottom-2 z-10 h-3 w-3 border-r border-b border-rule-strong" />
 
       <div className="relative aspect-9/16 w-full overflow-hidden bg-ink/5">
-        {show && isVideo ? (
+        {showVideo ? (
           <video
             src={media ?? undefined}
             poster={profile.heroPoster ?? undefined}
@@ -54,9 +63,9 @@ function MediaPanel() {
             onError={() => setFailed(true)}
             className="h-full w-full object-cover"
           />
-        ) : show ? (
+        ) : showImage ? (
           <img
-            src={media ?? undefined}
+            src={imageSrc ?? undefined}
             alt={profile.heroMediaAlt}
             onError={() => setFailed(true)}
             className="h-full w-full object-cover"
