@@ -158,7 +158,7 @@ export const seo = {
   description:
     'Mechanical engineering student portfolio featuring SolidWorks design, prosthetics involvement, aerospace CAD, Python research tools, and an interest in computational biomechanics.',
   /** Absolute URL once deployed — Open Graph tags need a full URL, not a relative path. */
-  siteUrl: '[[ADD DEPLOYED SITE URL]]',
+  siteUrl: 'https://christiankeoughportfolio.vercel.app/',
   ogImage: '/og-image.jpg',
 }
 

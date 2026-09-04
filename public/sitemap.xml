@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Only the root is listed. The site uses hash routing (#/projects, #/about),
+  and search engines treat everything after the # as the same URL, so the
+  inner pages are not separately indexable. If that matters later, switching
+  to path routing is the fix; Vercel serves the SPA fallback for it natively.
+-->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://christiankeoughportfolio.vercel.app/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>1.0</priority>
+  </url>
+</urlset>
