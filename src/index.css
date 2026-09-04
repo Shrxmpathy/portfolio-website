@@ -1,0 +1,237 @@
+@import 'tailwindcss';
+
+@theme {
+  /* Blueprint paper: a pale cool blue rather than white, with the rules and
+     grid tinted to match. Ink is a near-black navy so the whole page sits in
+     one temperature. */
+  --color-paper: #edf1f5;
+  --color-surface: #f7fafc;
+  /* One step deeper, for bands that need to separate from the page. */
+  --color-paper-deep: #e2e9f0;
+  --color-ink: #17222e;
+  --color-ink-soft: #45525f;
+  /* Darkened until small caption text clears WCAG AA on the blue paper (4.8:1). */
+  --color-ink-faint: #5c6b79;
+  --color-rule: #cbd7e2;
+  --color-rule-strong: #a8bacb;
+  /* Red survives the shift on purpose: red pencil is what drafters actually
+     marked blueprints up with, and it reads clearly against the blue. */
+  --color-accent: #8c2f2a;
+  --color-accent-soft: #b6635e;
+
+  --font-display: 'Fraunces', 'Iowan Old Style', Palatino, Georgia, serif;
+  --font-sans: 'IBM Plex Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-mono: 'IBM Plex Mono', ui-monospace, 'Cascadia Code', Menlo, Consolas, monospace;
+}
+
+/* Fraunces is a variable font: soften the terminals a little and let the
+   optical-size axis track the actual rendered size. */
+.font-display,
+h1,
+h2,
+h3 {
+  font-variation-settings:
+    'SOFT' 20,
+    'WONK' 1;
+}
+
+html {
+  scroll-behavior: smooth;
+  /* Sticky header height, so anchor targets aren't hidden underneath it. */
+  scroll-padding-top: 5rem;
+}
+
+body {
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+
+  /*
+   * Blueprint paper. Two grids rather than one: a fine 32px minor grid and a
+   * heavier 160px major grid every fifth line, which is how drafting paper is
+   * actually ruled and reads far better than a single uniform mesh. A soft
+   * blue bloom sits under both, fixed so it doesn't scroll with the content.
+   *
+   * Kept deliberately faint — texture you notice second, not a grid you read.
+   */
+  background-color: var(--color-paper);
+  background-image:
+    radial-gradient(
+      130rem 70rem at 50% -24rem,
+      color-mix(in srgb, #1d4e6f 7%, transparent),
+      transparent 70%
+    ),
+    linear-gradient(to right, color-mix(in srgb, var(--color-rule-strong) 55%, transparent) 1px, transparent 1px),
+    linear-gradient(to bottom, color-mix(in srgb, var(--color-rule-strong) 55%, transparent) 1px, transparent 1px),
+    linear-gradient(to right, color-mix(in srgb, var(--color-rule-strong) 32%, transparent) 1px, transparent 1px),
+    linear-gradient(to bottom, color-mix(in srgb, var(--color-rule-strong) 32%, transparent) 1px, transparent 1px);
+  background-size:
+    100% 100%,
+    160px 160px,
+    160px 160px,
+    32px 32px,
+    32px 32px;
+  background-attachment: fixed, scroll, scroll, scroll, scroll;
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 3px;
+}
+
+::selection {
+  background: color-mix(in srgb, var(--color-accent) 18%, transparent);
+}
+
+@utility label {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-ink-faint);
+}
+
+/* Faint drafting grid used behind a few sections. */
+@utility grid-paper {
+  background-image:
+    linear-gradient(to right, color-mix(in srgb, var(--color-rule) 55%, transparent) 1px, transparent 1px),
+    linear-gradient(to bottom, color-mix(in srgb, var(--color-rule) 55%, transparent) 1px, transparent 1px);
+  background-size: 28px 28px;
+}
+
+/*
+ * Banner parallax.
+ *
+ * Driven by the CSS view() timeline rather than a scroll listener. Scrolling
+ * is composited off the main thread, so a JS transform always lands a frame
+ * late and the layer visibly judders. A scroll-driven animation runs on the
+ * compositor with the scroll itself, so it stays locked.
+ *
+ * Unsupported browsers simply get a static layer, which is a fine fallback.
+ */
+/*
+ * The timeline is NAMED on the outer section rather than using an anonymous
+ * view(). An anonymous view() resolves against the layer's nearest scroll
+ * container, which is the overflow:hidden frame that clips it -- and that
+ * frame never scrolls, so the timeline stays inert. Declaring it on the
+ * unclipped section measures against the page scroller instead.
+ */
+.parallax-frame {
+  view-timeline-name: --parallax;
+  view-timeline-axis: block;
+}
+
+@supports (animation-timeline: view()) {
+  .parallax-layer {
+    animation: parallax-pan linear both;
+    animation-timeline: --parallax;
+    /*
+     * Narrowed from the full `cover 0% -> cover 100%` pass. The travel distance
+     * is fixed by how far the clip overflows the band, so the only way to make
+     * the movement read stronger is to spend it over less scrolling. Running it
+     * across the middle 60% covers the same distance at ~1.7x the rate, and it
+     * settles before the band leaves the screen instead of easing the whole way.
+     */
+    animation-range: cover 20% cover 80%;
+  }
+}
+
+/*
+ * from/to are set per-instance so the pan can be biased rather than centred.
+ * A larger value shifts the layer DOWN, which reveals content higher up in
+ * the clip; a smaller one reveals content further down. Both endpoints must
+ * keep the layer covering the frame -- see the note on the element.
+ */
+/*
+ * Timeline rail. The track is drawn full height in a light tone; the fill sits
+ * on top of it and grows downward as the section is scrolled through, using
+ * the same compositor-driven scroll timeline as the banner.
+ *
+ * `contain` is the right range here: for a section taller than the viewport it
+ * runs from the moment the section's top reaches the top of the screen to the
+ * moment its bottom reaches the bottom, which is exactly "while you are
+ * reading this section".
+ *
+ * Default is scaleY(1) so browsers without scroll-driven animations simply
+ * show a completed line rather than an empty track.
+ */
+.timeline {
+  view-timeline-name: --timeline;
+  view-timeline-axis: block;
+}
+
+.timeline-fill {
+  transform-origin: top;
+  transform: scaleY(1);
+}
+
+@supports (animation-timeline: view()) {
+  .timeline-fill {
+    animation: timeline-grow linear both;
+    animation-timeline: --timeline;
+    animation-range: contain 0% contain 100%;
+  }
+}
+
+@keyframes timeline-grow {
+  from {
+    transform: scaleY(0);
+  }
+  to {
+    transform: scaleY(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .timeline-fill {
+    animation: none !important;
+    transform: scaleY(1) !important;
+  }
+}
+
+@keyframes parallax-pan {
+  from {
+    transform: translate3d(0, var(--parallax-from, -12%), 0);
+  }
+  to {
+    transform: translate3d(0, var(--parallax-to, 12%), 0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .parallax-layer {
+    animation: none !important;
+    transform: none !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+@media print {
+  body {
+    background: #fff;
+  }
+
+  .no-print {
+    display: none !important;
+  }
+
+  a[href^='http']::after {
+    content: ' (' attr(href) ')';
+    font-size: 0.75em;
+    color: #555;
+  }
+}
