@@ -36,10 +36,10 @@ export default function ProjectsBanner() {
       preload="metadata"
       aria-label={projectsBanner.alt}
       onError={() => setFailed(true)}
-      className="h-[115%] w-auto max-w-none"
+      className="h-[119%] w-auto max-w-none"
     />
   ) : (
-    <img src={projectsBanner.poster} alt={projectsBanner.alt} className="h-[115%] w-auto max-w-none" />
+    <img src={projectsBanner.poster} alt={projectsBanner.alt} className="h-[119%] w-auto max-w-none" />
   )
 
   return (
@@ -64,7 +64,10 @@ export default function ProjectsBanner() {
         */}
         <div
           className="parallax-layer absolute inset-0 flex items-end justify-center will-change-transform"
-          style={{ '--parallax-from': '0%', '--parallax-to': '15%' } as CSSProperties}
+          // Layer is 119% tall, so there is 19% of headroom. Travel stops at
+          // 18% to leave a point of slack against subpixel rounding, which
+          // would otherwise show as a hairline gap at the extremes.
+          style={{ '--parallax-from': '0%', '--parallax-to': '18%' } as CSSProperties}
         >
           {media}
         </div>
