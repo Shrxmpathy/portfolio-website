@@ -13,8 +13,8 @@ export default function Projects() {
           <div className="mb-16 max-w-2xl">
             <SectionHeading as="h1">Here is what I am working on now.</SectionHeading>
             <p className="mt-5 leading-relaxed text-ink-soft">
-              Work in progress rather than finished results, so the write-ups cover where things
-              stand and what is still open.
+              These are the projects I am in the middle of right now. I am genuinely excited about
+              them, and they are giving me a lot of experience.
             </p>
           </div>
 
