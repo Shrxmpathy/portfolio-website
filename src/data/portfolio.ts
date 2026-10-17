@@ -549,14 +549,17 @@ export const research = {
 export const organizations: Organization[] = [
   {
     name: 'Generational Relief in Prosthetics (GRiP)',
-    role: 'Production Design Team & 3D Printing Subteam Member', // from résumé
+    role: 'Tendon Driven Hand, Production Design & 3D Printing Subteam Member',
     dates: 'Spring 2026 – Present', // from résumé
     description: 'A student organization that works on prosthetic devices for children.',
     body:
-      'I work on the Production Design and 3D Printing subteams, currently addressing stability needs for a child’s bike pedal prosthetic in SolidWorks for prototyping in TPU and PLA. A lot of the work is getting the geometry right before anything is printed. I extracted 15+ critical dimensions using ImageJ to drive the CAD rather than estimating them. This is the involvement that moved prosthetics from an interest to the direction I want my work to take.',
+      'I work on the tendon driven hand, production, and 3D printing subteams. Last semester we addressed stability needs for a child’s bike pedal prosthetic in SolidWorks for prototyping in TPU and PLA. A lot of the work is getting the geometry right before anything is printed. I extracted 15+ critical dimensions using ImageJ to drive the CAD rather than estimating them. Now I am involved in the tendon driven hand. This is the involvement that moved prosthetics from an interest to the direction I want my work to take.',
     details: [
-      { label: 'Subteams', value: 'Production Design Team; 3D Printing Subteam' },
-      { label: 'Current project', value: 'Child’s bike pedal prosthetic, stability design' },
+      {
+        label: 'Subteams',
+        value: 'Tendon Driven Haptic Feedback; Production Design; 3D Printing',
+      },
+      { label: 'Current project', value: 'Tendon driven hand with haptic feedback' },
       { label: 'CAD contributions', value: 'SolidWorks modeling; 15+ dimensions extracted via ImageJ' },
       { label: 'Fabrication', value: 'TPU and PLA 3D printing for prototyping' },
       { label: 'Tools used', value: 'SolidWorks, ImageJ, FDM 3D printing' },
