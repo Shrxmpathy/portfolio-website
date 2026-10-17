@@ -6,7 +6,7 @@ export default function Projects() {
     <Section label="Projects" index="01">
       <div>
         <div className="mb-16 max-w-2xl">
-          <SectionHeading as="h1">Here are some of my current projects.</SectionHeading>
+          <SectionHeading as="h1">Here are some of my past projects.</SectionHeading>
           <p className="mt-5 leading-relaxed text-ink-soft">
             Each one covers the objective, the constraints, the context, the lessons learned, and
             images of the process.
