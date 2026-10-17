@@ -51,16 +51,28 @@ function Cover({ project }: { project: Project }) {
  * Image-led index of the projects. Titles and categories only — the write-up
  * lives on each project's own page.
  */
-export default function ProjectGrid({ className = '' }: { className?: string }) {
+export default function ProjectGrid({
+  className = '',
+  items = projects,
+  startIndex = 0,
+}: {
+  className?: string
+  /** Defaults to every project; pass a subset to show one group. */
+  items?: Project[]
+  /** Offsets the displayed numbering when rendering a subset. */
+  startIndex?: number
+}) {
   return (
     <ul className={`grid gap-x-8 gap-y-12 sm:grid-cols-2 ${className}`}>
-      {projects.map((project, i) => (
+      {items.map((project, i) => (
         <li key={project.slug}>
           <a href={href(`/projects/${project.slug}`)} className="group block">
             <Cover project={project} />
 
             <div className="mt-4 flex items-baseline justify-between gap-4">
-              <span className="label text-accent">{String(i + 1).padStart(2, '0')}</span>
+              <span className="label text-accent">
+                {String(startIndex + i + 1).padStart(2, '0')}
+              </span>
               <ArrowUpRight
                 aria-hidden
                 size={16}

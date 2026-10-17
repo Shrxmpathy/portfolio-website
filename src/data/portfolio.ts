@@ -50,6 +50,8 @@ export type Project = {
   slug: string
   title: string
   category: string
+  /** Work in progress. Groups the project under "Current" rather than "Past". */
+  current?: boolean
   /** Short label shown near the title. Keep it honest. */
   status: string
   summary: string
@@ -254,7 +256,73 @@ export const focusAreas = [
 /* --------------------------------------------------------------- projects */
 
 export const projects: Project[] = [
-  /* -------------------------------------------------- 01 — canine brace -- */
+  /* ------------------------------------------- 01 — epson conformal (WIP) -- */
+  {
+    slug: 'epson-conformal-printing',
+    title: 'Epson 6-Axis Robot for Conformal Printing',
+    category: 'Robotics · SPEL+ · Additive Manufacturing',
+    current: true,
+    status: 'In progress · FAMSIL',
+    summary:
+      'Setting up an Epson 6-axis robot with a motion controller and vision camera to print directly onto curved surfaces, rather than the flat beds additive manufacturing usually assumes.',
+    overview:
+      'Conformal printing means depositing material onto a curved surface instead of a flat build plate, which is what you need if a part is going to sit against a body. A prosthetic socket is not a plane, so a print that has to follow it cannot be driven by the usual three-axis motion. The robot gives the six degrees of freedom to keep the nozzle oriented to the surface as it moves.',
+    context:
+      'Florida Advanced Manufacturing and Systems Integration Laboratory (FAMSIL). The lab prints biomaterials by Direct Ink Write, and conformal deposition extends that off the flat bed.',
+    objective:
+      'Bring the robot, its motion controller, and a vision camera into one working cell, and get motion programs running reliably enough to attempt the first physical conformal prints.',
+    requirements: [
+      'Hold the nozzle oriented to a curved surface through the whole path, not just at the start and end.',
+      'Drive the path from geometry that already exists in CAD rather than hand-written coordinates.',
+      'Simulate motion before committing it to hardware, since a bad path can drive the nozzle into the part.',
+    ],
+    constraints: [
+      'Six-axis motion has orientation singularities and reach limits that a three-axis printer never encounters.',
+      'The robot was being brought up from scratch, so controller and camera integration came before any printing.',
+    ],
+    role:
+      'I am setting up the cell and writing the motion programs. [[ADD WHAT OTHERS IN THE LAB CONTRIBUTE, so the split is clear.]]',
+    process: [
+      'Drew the toolpath geometry in SolidWorks and exported it to DXF, so paths come from real CAD rather than typed coordinates.',
+      'Wrote and simulated the robot’s motion programs in SPEL+, checking reach and orientation before running anything on hardware.',
+      'Integrated the motion controller and vision camera into the cell.',
+      'Working toward the first physical prints.',
+    ],
+    tools: ['Epson 6-axis robot', 'SPEL+', 'SolidWorks', 'DXF toolpaths', 'Machine vision'],
+    challenges: [
+      'Keeping the nozzle normal to a curved surface is an orientation problem, not just a position one, and that is the whole difficulty of conformal printing.',
+      '[[ADD A SPECIFIC PROBLEM YOU HIT, for example a singularity, a reach limit, or a path that simulated cleanly but failed in practice.]]',
+    ],
+    result:
+      'Motion programs written and simulating correctly. Not yet printing; the first physical prints are the next step.',
+    lessons: [
+      'Simulation is the only safe place to find a bad path. On a six-axis arm the failure mode is the nozzle colliding with the part, not a skipped layer.',
+    ],
+    images: [
+      {
+        src: null,
+        video: '/epson-toolpath-1.mp4',
+        poster: '/epson-toolpath-1-poster.jpg',
+        wide: true,
+        placeholder: 'Add a toolpath generation recording',
+        alt: 'SolidWorks session sketching lettering as path geometry and exporting it to DXF for the robot',
+        caption:
+          'Building path geometry in SolidWorks and exporting it to DXF. The DXF is what the robot’s motion program is generated from.',
+      },
+      {
+        src: null,
+        video: '/epson-toolpath-2.mp4',
+        poster: '/epson-toolpath-2-poster.jpg',
+        wide: true,
+        placeholder: 'Add a freeform path recording',
+        alt: 'SolidWorks DXF export dialog with a freeform spline path selected for output',
+        caption:
+          'Exporting a freeform spline path. Curves like this are the case the robot exists for, since they cannot be driven by flat three-axis motion.',
+      },
+    ],
+  },
+
+  /* -------------------------------------------------- 02 — canine brace -- */
   {
     slug: 'canine-pelvic-brace-hip-socket',
     title: 'Canine Pelvic Brace with Hip Socket',
@@ -539,9 +607,9 @@ export const research = {
   university: 'University of Florida',
   role: 'Undergraduate Lab Assistant', // from résumé
   dates: 'March 2026 – Present', // from résumé
-  area: 'Vapor Induced Phase Separation (VIPS) · Direct Ink Write printing',
+  area: 'Robotics · Direct Ink Write printing · Polymer phase separation',
   body:
-    'I run experiments modeling phase separation, using non-solvent induced phase separation alongside vapor induced phase separation. I also 3D print designs that make the lab run better, and I built a material compatibility model in Python that lets us decide quickly which inks to use in an experiment.',
+    'At UF’s Florida Advanced Manufacturing and Systems Integration Laboratory, I work where polymer phase separation, additive manufacturing, and robotics meet. My main focus right now is setting up an Epson 6-axis robot with a motion controller and vision camera for conformal printing, which means printing directly onto curved surfaces like prosthetics. I’ve written and simulated the robot’s motion programs in SPEL+ and am working toward the first physical prints. Alongside that, I run experiments that model how polymer inks phase-separate, comparing vapor-induced phase separation (VIPS) with non-solvent-induced phase separation (NIPS), to understand how processing conditions shape the porous structures in Direct Ink Write (DIW) printed parts. To make ink selection faster, I built a Python material-compatibility tool based on Hansen solubility parameters. It screens around 30 solvents, generates 3D and 2D compatibility plots, and cuts relative energy difference (RED) calculation time by about 95%, so the team can quickly pick the best ink-solvent pairing for an experiment. I also design and 3D print hardware that helps the lab run more smoothly, and I present my progress at monthly lab seminars.',
 }
 
 /* ---------------------------------------------------------- organizations */

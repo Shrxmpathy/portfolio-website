@@ -1,20 +1,38 @@
+import { projects } from '../data/portfolio'
 import ProjectGrid from '../components/ProjectGrid'
 import Section, { SectionHeading } from '../components/ui/Section'
 
+const current = projects.filter((p) => p.current)
+const past = projects.filter((p) => !p.current)
+
 export default function Projects() {
   return (
-    <Section label="Projects" index="01">
-      <div>
+    <>
+      {current.length > 0 && (
+        <Section label="Current Projects" index="01">
+          <div className="mb-16 max-w-2xl">
+            <SectionHeading as="h1">Here is what I am working on now.</SectionHeading>
+            <p className="mt-5 leading-relaxed text-ink-soft">
+              Work in progress rather than finished results, so the write-ups cover where things
+              stand and what is still open.
+            </p>
+          </div>
+
+          <ProjectGrid items={current} />
+        </Section>
+      )}
+
+      <Section label="Past Projects" index="02">
         <div className="mb-16 max-w-2xl">
-          <SectionHeading as="h1">Here are some of my past projects.</SectionHeading>
+          <SectionHeading>Here are some of my past projects.</SectionHeading>
           <p className="mt-5 leading-relaxed text-ink-soft">
             Each one covers the objective, the constraints, the context, the lessons learned, and
             images of the process.
           </p>
         </div>
 
-        <ProjectGrid />
-      </div>
-    </Section>
+        <ProjectGrid items={past} startIndex={current.length} />
+      </Section>
+    </>
   )
 }
