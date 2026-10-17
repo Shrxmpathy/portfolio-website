@@ -268,7 +268,7 @@ export const projects: Project[] = [
     overview:
       'Conformal printing means depositing material onto a curved surface instead of a flat build plate, which is what you need if a part is going to sit against a body. A prosthetic socket is not a plane, so a print that has to follow it cannot be driven by the usual three-axis motion. The robot gives the six degrees of freedom to keep the nozzle oriented to the surface as it moves.',
     context:
-      'Florida Advanced Manufacturing and Systems Integration Laboratory (FAMSIL). The lab prints biomaterials by Direct Ink Write, and conformal deposition extends that off the flat bed.',
+      'Florida Advanced Manufacturing and Systems Integration Laboratory (FAMSIL). The lab prints biomaterials by Direct Ink Writing, and conformal deposition extends that off the flat bed.',
     objective:
       'Bring the robot, its motion controller, and a vision camera into one working cell, and get motion programs running reliably enough to attempt the first physical conformal prints.',
     requirements: [
@@ -281,7 +281,7 @@ export const projects: Project[] = [
       'The robot was being brought up from scratch, so controller and camera integration came before any printing.',
     ],
     role:
-      'I am setting up the cell and writing the motion programs. [[ADD WHAT OTHERS IN THE LAB CONTRIBUTE, so the split is clear.]]',
+      'I am setting up the Epson robot manipulator, programming it with SPEL+, and working with the vision camera and motion controller to get all three working together.',
     process: [
       'Drew the toolpath geometry in SolidWorks and exported it to DXF, so paths come from real CAD rather than typed coordinates.',
       'Wrote and simulated the robot’s motion programs in SPEL+, checking reach and orientation before running anything on hardware.',
@@ -290,8 +290,8 @@ export const projects: Project[] = [
     ],
     tools: ['Epson 6-axis robot', 'SPEL+', 'SolidWorks', 'DXF toolpaths', 'Machine vision'],
     challenges: [
-      'Keeping the nozzle normal to a curved surface is an orientation problem, not just a position one, and that is the whole difficulty of conformal printing.',
-      '[[ADD A SPECIFIC PROBLEM YOU HIT, for example a singularity, a reach limit, or a path that simulated cleanly but failed in practice.]]',
+      'We are working toward mounting the robot upside down, which changes how the arm has to reach the work and what its usable envelope becomes.',
+      'We are also figuring out how to set the vision camera up without relying on Epson Vision Guide, so the robot is not blind.',
     ],
     result:
       'Motion programs written and simulating correctly. Not yet printing; the first physical prints are the next step.',
@@ -305,9 +305,9 @@ export const projects: Project[] = [
         poster: '/epson-toolpath-1-poster.jpg',
         wide: true,
         placeholder: 'Add a toolpath generation recording',
-        alt: 'SolidWorks session sketching lettering as path geometry and exporting it to DXF for the robot',
+        alt: 'Epson robot tracing a lettering path in the SPEL+ simulator, after the geometry was drawn in SolidWorks and exported to DXF',
         caption:
-          'Building path geometry in SolidWorks and exporting it to DXF. The DXF is what the robot’s motion program is generated from.',
+          'Path geometry built in SolidWorks, exported to DXF, then run in the SPEL+ simulator. Simulating first is how a bad path gets caught before it reaches hardware.',
       },
       {
         src: null,
