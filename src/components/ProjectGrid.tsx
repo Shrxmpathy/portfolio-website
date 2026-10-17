@@ -5,8 +5,11 @@ import { href } from '../lib/router'
 
 function Cover({ project }: { project: Project }) {
   const [failed, setFailed] = useState(false)
-  const image = project.images[0]
-  const showImage = Boolean(image?.src) && !failed
+  // Fall back to a video slot's poster, so a project whose first item is a
+  // clip still gets a thumbnail instead of the empty placeholder frame.
+  const image = project.images.find((i) => i.src || i.poster) ?? project.images[0]
+  const cover = image?.src ?? image?.poster ?? null
+  const showImage = Boolean(cover) && !failed
 
   return (
     <div className="relative aspect-4/3 overflow-hidden border border-rule bg-surface">
@@ -15,7 +18,7 @@ function Cover({ project }: { project: Project }) {
 
       {showImage ? (
         <img
-          src={image.src ?? ''}
+          src={cover ?? ''}
           alt={image.alt}
           loading="lazy"
           decoding="async"
